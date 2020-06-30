@@ -1,0 +1,15 @@
+#include "version.hpp"
+
+#cmakedefine PROJECT_VERSION "${PROJECT_VERSION}"
+
+#cmakedefine PROJECT_BUILD_NUMBER ${PROJECT_BUILD_NUMBER}
+
+const char * GetVersion()
+{
+    return PROJECT_VERSION;
+}
+
+int GetNumberBuild()
+{
+    return PROJECT_BUILD_NUMBER;
+}
