@@ -10,11 +10,12 @@ project(homework1 VERSION 0.0.${PROJECT_BUILD_NUMBER})
 
 configure_file(src/version.cpp.in version.cpp)
 
-#set(HDRS include/version.hpp)         
+set(HDRS include/version.hpp)         
 set(SRCS src/main.cpp version.cpp)
 
 add_executable(${PROJECT_NAME} ${HDRS} ${SRCS})
 
-include_directories(include/)
+target_include_directories(${PROJECT_NAME} PRIVATE 
+    include/)
 
 add_subdirectory(test)
