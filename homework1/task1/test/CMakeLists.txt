@@ -2,6 +2,10 @@ cmake_minimum_required (VERSION 3.1)
 
 project(homework1_task1_test)
 
+# Boost, когда собирает статические библиотеки, добавляет в название x64 или x32.
+# При этом, эти названия он не ищет. Что я мог сделать не так?
+# Пробовал задать address-model=64, но не помогло
+# Пришлось отредактировать названия библиотек.
 find_package(Boost COMPONENTS unit_test_framework regex REQUIRED)
 
 set(HDRS ../include/version.hpp)

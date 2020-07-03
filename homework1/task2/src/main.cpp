@@ -1,5 +1,6 @@
 #include <set>
 #include "ipv4.hpp"
+#include <algorithm>
 
 // ("",  '.') -> [""]
 // ("11", '.') -> ["11"]
@@ -13,7 +14,7 @@ std::vector<std::string> split(const std::string &str, char d)
 
     std::string::size_type start = 0;
     std::string::size_type stop = str.find_first_of(d);
-    while(stop != std::string::npos)
+    while (stop != std::string::npos)
     {
         r.push_back(str.substr(start, stop - start));
 
@@ -30,9 +31,9 @@ int main(int argc, char const *argv[])
 {
     try
     {
-        std::multiset<ipv4> ip_pool;
+        std::multiset<ipv4, std::greater<ipv4>> ip_pool;
 
-        for(std::string line; std::getline(std::cin, line);)
+        for (std::string line; std::getline(std::cin, line);)
         {
             auto v = split(line, '\t');
             ip_pool.emplace(split(v.at(0), '.'));
@@ -53,6 +54,18 @@ int main(int argc, char const *argv[])
 
         // TODO filter by first byte and output
         // ip = filter(1)
+        {
+            auto first = std::find_if(ip_pool.cbegin(), ip_pool.cend(),
+                                      [](const ipv4 &e) { return e.filter(1); });
+
+            auto last = std::find_if_not(first, ip_pool.cend(),
+                                         [](const ipv4 &e) { return e.filter(1); });
+
+            for (auto i = first; i != last; i++)
+            {
+                std::cout << *i << std::endl;
+            }
+        }
 
         // 1.231.69.33
         // 1.87.203.225
@@ -62,6 +75,18 @@ int main(int argc, char const *argv[])
 
         // TODO filter by first and second bytes and output
         // ip = filter(46, 70)
+        {
+            auto first = std::find_if(ip_pool.cbegin(), ip_pool.cend(),
+                                      [](const ipv4 &e) { return e.filter(46, uint8_t(70)); });
+
+            auto last = std::find_if_not(first, ip_pool.cend(),
+                                         [](const ipv4 &e) { return e.filter(46, uint8_t(70)); });
+
+            for (auto i = first; i != last; i++)
+            {
+                std::cout << *i << std::endl;
+            }
+        }
 
         // 46.70.225.39
         // 46.70.147.26
@@ -70,6 +95,13 @@ int main(int argc, char const *argv[])
 
         // TODO filter by any byte and output
         // ip = filter_any(46)
+        {
+            for (auto i : ip_pool)
+            {
+                if (i.filter_any(46))
+                    std::cout << i << std::endl;
+            }
+        }
 
         // 186.204.34.46
         // 186.46.222.194
@@ -106,7 +138,7 @@ int main(int argc, char const *argv[])
         // 39.46.86.85
         // 5.189.203.46
     }
-    catch(const std::exception &e)
+    catch (const std::exception &e)
     {
         std::cerr << e.what() << std::endl;
     }
