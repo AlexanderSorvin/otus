@@ -4,7 +4,7 @@ jobs:
   include:
     - stage: homework1
       before_script:
-      - sudo apt-get install libboost-test-dev libboost-regex-dev -y
+      - sudo apt-get install libboost-test-dev libboost-regex-dev libgtest-dev -y
       - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
       - sudo apt-get update -qq
       script:
