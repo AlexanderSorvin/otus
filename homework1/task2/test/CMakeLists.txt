@@ -8,7 +8,9 @@ project(homework1_task2_test)
 # Причем последняя ссылка неправильна
 find_package(GTest REQUIRED)
 
-set(GTEST_INCLUDE_DIRS D:/Projects/googletest/googletest/include)
+if (FIX_BAG)
+    set(GTEST_INCLUDE_DIRS D:/Projects/googletest/googletest/include)
+endif()
 #message("${GTEST_INCLUDE_DIRS}")
 
 set(HDRS ../include/ipv4.hpp)
