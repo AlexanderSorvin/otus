@@ -1,4 +1,5 @@
 #define BOOST_TEST_MODULE homework1
+#define BOOST_TEST_MAIN
 
 #include <boost/test/unit_test.hpp>
 #include <boost/regex.hpp>
@@ -20,11 +21,12 @@ BOOST_AUTO_TEST_CASE(test_valid_number_bild)
 BOOST_AUTO_TEST_CASE(test_valid_version)
 {
     // Arrange
-    boost::regex regEx("\\d+\\.\\d+\\.(\\d+)");
+    boost::regex regEx("^\\d+\\.\\d+\\.(\\d+)$");
     boost::smatch result;
 
     // Act
-    bool IsFormat = boost::regex_match(std::string(GetVersion()), result, regEx);
+    std::string version = GetVersion();
+    bool IsFormat = boost::regex_match(version, result, regEx);
 
     // Assert
     BOOST_CHECK(IsFormat);
