@@ -9,6 +9,7 @@
 class ipv4 
 {
 private:
+    // Параметр просится быть шаблонным, но здесь в этом нет необходимости
     static const size_t v4 = 4;
 public:
     ipv4(const std::vector<std::string> &ip);
@@ -16,10 +17,10 @@ public:
     bool operator== (const ipv4& ip);
     inline bool operator!= (const ipv4& ip) { !(*this == ip); }
 
-    template <typename... T, typename = typename std::enable_if<sizeof...(T) < ipv4::v4 - 1>>
+    template <typename... T, typename = typename std::enable_if<sizeof...(T) < ipv4::v4>>
     inline bool filter(uint8_t value1, T... values);
 
-    template <typename... T, typename = typename std::enable_if<sizeof...(T) < ipv4::v4 - 1>>
+    template <typename... T, typename = typename std::enable_if<sizeof...(T) < ipv4::v4>>
     inline bool filter_any(uint8_t value1, T... values);
 
     bool filter(const std::initializer_list<uint8_t>& f);
