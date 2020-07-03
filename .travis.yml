@@ -10,6 +10,7 @@ jobs:
       - cd /usr/src/gtest
       - sudo cmake CMakeLists.txt
       - sudo make
+      - cd -
       - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
       - sudo apt-get update -qq
       script:
