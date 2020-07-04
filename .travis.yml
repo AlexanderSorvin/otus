@@ -9,9 +9,9 @@ jobs:
       - sudo apt-get update -qq
       script:
       - cmake homework1/task1
-      - cmake --build homework1/task1
-      - cmake --build homework1/task1 --target test
-      - cmake --build homework1/task1 --target package
+      - cmake --build .
+      - cmake --build . --target test
+      - cmake --build . --target package
       deploy:
         provider: script
         skip_cleanup: true
@@ -29,9 +29,9 @@ jobs:
       - sudo apt-get update -qq
       script:
       - cmake homework1/task2 -DGTEST_ROOT=/usr/src/gtest
-      - cmake --build homework1/task2
-      - cmake --build homework1/task2 --target test
-      - cmake --build homework1/task2 --target package
+      - cmake --build .
+      - cmake --build . --target test
+      - cmake --build . --target package
       deploy:
         provider: script
         skip_cleanup: true
