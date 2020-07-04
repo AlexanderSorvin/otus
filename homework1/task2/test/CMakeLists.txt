@@ -10,6 +10,11 @@ set(SRCS main.cpp ipv4.cpp ../src/ipv4.cpp)
 
 add_executable(${PROJECT_NAME} ${SRCS} ${HDRS})
 
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    CXX_STANDARD 14
+    CXX_STANDARD_REQUIRED ON
+)
+
 target_include_directories(${PROJECT_NAME} PRIVATE 
     ../include/
     ${GTEST_INCLUDE_DIRS}
