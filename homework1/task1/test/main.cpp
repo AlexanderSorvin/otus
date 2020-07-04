@@ -1,5 +1,4 @@
 #define BOOST_TEST_MODULE homework1
-#define BOOST_TEST_MAIN
 
 #include <boost/test/unit_test.hpp>
 #include <boost/regex.hpp>

@@ -19,6 +19,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${Boost_INCLUDE_DIR}
 )
 
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
+)
+
 target_link_libraries(${PROJECT_NAME}
     ${Boost_LIBRARIES}
 )
