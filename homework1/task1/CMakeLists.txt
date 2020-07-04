@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.1)
 
-if(NOT ENV{TRAVIS_BUILD_NUMBER})
+if(NOT DEFINED $ENV{TRAVIS_BUILD_NUMBER})
     set(ENV{TRAVIS_BUILD_NUMBER} 1)
 endif()
 
