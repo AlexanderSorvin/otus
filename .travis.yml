@@ -8,7 +8,7 @@ jobs:
       - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
       - sudo apt-get update -qq
       script:
-      - cmake . -DGTEST_ROOT=/usr/src/gtest
+      - cmake homework1/task1
       - cmake --build homework1/task1
       - cmake --build homework1/task1 --target test
       - cmake --build homework1/task1 --target package
@@ -28,7 +28,7 @@ jobs:
       - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
       - sudo apt-get update -qq
       script:
-      - cmake . -DGTEST_ROOT=/usr/src/gtest
+      - cmake homework1/task2 -DGTEST_ROOT=/usr/src/gtest
       - cmake --build homework1/task2
       - cmake --build homework1/task2 --target test
       - cmake --build homework1/task2 --target package
