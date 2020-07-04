@@ -21,7 +21,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 )
 
 target_link_libraries(${PROJECT_NAME}
-    ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES}
+    ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread
 )
 
 enable_testing()
