@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.1)
 
-project(homework1_task2 VERSION 1.3.23)
+project(homework1_task2 VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
 
 set(HDRS include/ipv4.hpp)
          

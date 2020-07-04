@@ -1,9 +1,5 @@
 cmake_minimum_required (VERSION 3.1)
 
-if(NOT DEFINED $ENV{TRAVIS_BUILD_NUMBER})
-    set(ENV{TRAVIS_BUILD_NUMBER} 1)
-endif()
-
 set(PROJECT_BUILD_NUMBER $ENV{TRAVIS_BUILD_NUMBER})
 
 project(homework1_task1 VERSION 0.0.${PROJECT_BUILD_NUMBER})
