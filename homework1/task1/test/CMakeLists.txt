@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.1)
 
-project(homework1_task1_test)
+project(test_homework1_task1)
 
 # Boost, когда собирает статические библиотеки, добавляет в название x64 или x32.
 # При этом, эти названия он не ищет. Что я мог сделать не так?
@@ -27,6 +27,4 @@ target_link_libraries(${PROJECT_NAME}
     ${Boost_LIBRARIES}
 )
 
-enable_testing()
-
-add_test(homework1 ${PROJECT_NAME})
+add_test(${PROJECT_NAME} ${PROJECT_NAME})

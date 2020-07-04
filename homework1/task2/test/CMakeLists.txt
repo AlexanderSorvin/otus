@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.1)
 
-project(homework1_task2_test)
+project(test_homework1_task2)
 
 find_package(GTest REQUIRED)
 
@@ -24,6 +24,4 @@ target_link_libraries(${PROJECT_NAME}
     ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread
 )
 
-enable_testing()
-
-add_test(homework1 ${PROJECT_NAME})
+add_test(${PROJECT_NAME} ${PROJECT_NAME})
