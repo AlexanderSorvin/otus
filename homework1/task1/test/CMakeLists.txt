@@ -6,6 +6,7 @@ project(test_homework1_task1)
 # При этом, эти названия он не ищет. Что я мог сделать не так?
 # Пробовал задать address-model=64, но не помогло
 # Пришлось отредактировать названия библиотек.
+# У динамических бибилиотек, если честно, не помню, менял ли я их названия или нет
 find_package(Boost COMPONENTS unit_test_framework regex REQUIRED)
 
 set(HDRS ../include/version.hpp)
@@ -27,4 +28,6 @@ target_link_libraries(${PROJECT_NAME}
     ${Boost_LIBRARIES}
 )
 
+# Тест не проходит на винде, т.к. не видит библиотеки, 
+# что нужно было дописать?
 add_test(${PROJECT_NAME} ${PROJECT_NAME})
