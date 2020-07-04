@@ -36,4 +36,4 @@ jobs:
         provider: script
         skip_cleanup: true
         script:
-        - curl -T homework1_task2-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -ualexandersorvin:$BINTRAY_API_KEY "https://api.bintray.com/content/alexandersorvin/otus/homework1/homework1_task2-0.0.$TRAVIS_BUILD_NUMBER/$TRAVIS_BUILD_NUMBER/OTUS-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+        - curl -T homework1_task2-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -ualexandersorvin:$BINTRAY_API_KEY "https://api.bintray.com/content/alexandersorvin/otus/homework1/homework1_task2-0.0.$TRAVIS_BUILD_NUMBER/$TRAVIS_BUILD_NUMBER/homework1_task2-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
