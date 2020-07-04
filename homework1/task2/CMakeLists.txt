@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.1)
 
-project(homework1_task2)
+project(homework1_task2 VERSION 1.3.23)
 
 set(HDRS include/ipv4.hpp)
          
@@ -17,9 +17,11 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     include/
 )
 
+enable_testing()
+
 add_subdirectory(test)
 
-install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+install(TARGETS homework1_task2 RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 

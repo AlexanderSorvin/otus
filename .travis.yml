@@ -2,9 +2,23 @@ language: cpp
 
 jobs:
   include:
-    - stage: homework1
+    - stage: homework1_task1
       before_script:
       - sudo apt-get install libboost-test-dev libboost-regex-dev -y
+      - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
+      - sudo apt-get update -qq
+      script:
+      - cmake . -DGTEST_ROOT=/usr/src/gtest
+      - cmake --build homework1/task1
+      - cmake --build homework1/task1 --target test
+      - cmake --build homework1/task1 --target package
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script:
+        - curl -T homework1/task1/homework1_task1-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -ualexandersorvin:$BINTRAY_API_KEY "https://api.bintray.com/content/alexandersorvin/otus/homework1/OTUS-0.0.$TRAVIS_BUILD_NUMBER/$TRAVIS_BUILD_NUMBER/homework1_task1-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+    - stage: homework1_task2
+      before_script:
       - sudo apt-get install libgtest-dev
       - sudo apt-get install cmake
       - cd /usr/src/gtest
@@ -15,11 +29,11 @@ jobs:
       - sudo apt-get update -qq
       script:
       - cmake . -DGTEST_ROOT=/usr/src/gtest
-      - cmake --build .
-      - cmake --build . --target test
-      - cmake --build . --target package
+      - cmake --build homework1/task2
+      - cmake --build homework1/task2 --target test
+      - cmake --build homework1/task2 --target package
       deploy:
         provider: script
         skip_cleanup: true
         script:
-        - curl -T OTUS-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -ualexandersorvin:$BINTRAY_API_KEY "https://api.bintray.com/content/alexandersorvin/otus/homework1/OTUS-0.0.$TRAVIS_BUILD_NUMBER/$TRAVIS_BUILD_NUMBER/OTUS-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+        - curl -T homework1/task2/homework1_task2-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -ualexandersorvin:$BINTRAY_API_KEY "https://api.bintray.com/content/alexandersorvin/otus/homework1/homework1_task2-0.0.$TRAVIS_BUILD_NUMBER/$TRAVIS_BUILD_NUMBER/OTUS-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
