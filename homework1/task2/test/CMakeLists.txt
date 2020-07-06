@@ -4,9 +4,9 @@ project(test_homework1_task2)
 
 find_package(GTest REQUIRED)
 
-set(HDRS ../include/ipv4.hpp)
+set(HDRS ../include/ip.hpp)
          
-set(SRCS main.cpp ipv4.cpp ../src/ipv4.cpp)
+set(SRCS main.cpp ipv4.cpp)
 
 add_executable(${PROJECT_NAME} ${SRCS} ${HDRS})
 

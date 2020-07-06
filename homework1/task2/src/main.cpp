@@ -1,5 +1,5 @@
 #include <set>
-#include "ipv4.hpp"
+#include "ip.hpp"
 #include <algorithm>
 
 // ("",  '.') -> [""]
@@ -31,13 +31,16 @@ int main(int argc, char const *argv[])
 {
     try
     {
-        std::multiset<ipv4, std::greater<ipv4>> ip_pool;
+        std::vector<ip<v4>> ip_pool;
+        ip_pool.reserve(1000);
 
         for (std::string line; std::getline(std::cin, line);)
         {
             auto v = split(line, '\t');
-            ip_pool.emplace(split(v.at(0), '.'));
+            ip_pool.emplace_back(split(v.at(0), '.'));
         }
+
+        std::sort(ip_pool.begin(), ip_pool.end(), std::greater<ip<v4>>());
 
         for (auto i : ip_pool)
         {
@@ -56,10 +59,10 @@ int main(int argc, char const *argv[])
         // ip = filter(1)
         {
             auto first = std::find_if(ip_pool.cbegin(), ip_pool.cend(),
-                                      [](const ipv4 &e) { return e.filter(1); });
+                                      [](const ip<v4> &e) { return e.filter(1); });
 
             auto last = std::find_if_not(first, ip_pool.cend(),
-                                         [](const ipv4 &e) { return e.filter(1); });
+                                         [](const ip<v4> &e) { return e.filter(1); });
 
             for (auto i = first; i != last; i++)
             {
@@ -77,10 +80,10 @@ int main(int argc, char const *argv[])
         // ip = filter(46, 70)
         {
             auto first = std::find_if(ip_pool.cbegin(), ip_pool.cend(),
-                                      [](const ipv4 &e) { return e.filter(46, uint8_t(70)); });
+                                      [](const ip<v4> &e) { return e.filter(46, uint8_t(70)); });
 
             auto last = std::find_if_not(first, ip_pool.cend(),
-                                         [](const ipv4 &e) { return e.filter(46, uint8_t(70)); });
+                                         [](const ip<v4> &e) { return e.filter(46, uint8_t(70)); });
 
             for (auto i = first; i != last; i++)
             {
@@ -98,7 +101,7 @@ int main(int argc, char const *argv[])
         {
             for (auto i : ip_pool)
             {
-                if (i.filter_any(46))
+                if (i.filter_mask(46))
                     std::cout << i << std::endl;
             }
         }

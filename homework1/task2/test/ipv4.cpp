@@ -1,75 +1,75 @@
 #include <gtest/gtest.h>
-#include "ipv4.hpp"
+#include "ip.hpp"
 
 TEST(test_ipv4, create_arg_number)
 {
 	// Arrange
-    std::vector<std::string> v0 = {};
-    std::vector<std::string> v1 = {"1"};
-    std::vector<std::string> v2 = {"1", "2"};
-    std::vector<std::string> v3 = {"1", "2", "3"};
-    std::vector<std::string> v4 = {"1", "2", "3", "4"};
-    std::vector<std::string> v5 = {"1", "2", "3", "4", "5"};
-    std::vector<std::string> v6 = {"1", "2", "3", "4", "5", "6"};
+    std::vector<std::string> _v0 = {};
+    std::vector<std::string> _v1 = {"1"};
+    std::vector<std::string> _v2 = {"1", "2"};
+    std::vector<std::string> _v3 = {"1", "2", "3"};
+    std::vector<std::string> _v4 = {"1", "2", "3", "4"};
+    std::vector<std::string> _v5 = {"1", "2", "3", "4", "5"};
+    std::vector<std::string> _v6 = {"1", "2", "3", "4", "5", "6"};
 
     // Act
 
     // Assert
-    ASSERT_THROW((ipv4(v0)), std::invalid_argument);
-    ASSERT_THROW((ipv4(v1)), std::invalid_argument);
-    ASSERT_THROW((ipv4(v2)), std::invalid_argument);
-    ASSERT_THROW((ipv4(v3)), std::invalid_argument);
-    ASSERT_NO_THROW((ipv4(v4)));
-    ASSERT_THROW((ipv4(v5)), std::invalid_argument);
-    ASSERT_THROW((ipv4(v6)), std::invalid_argument);
+    ASSERT_THROW((ip<v4>(_v0)), std::invalid_argument);
+    ASSERT_THROW((ip<v4>(_v1)), std::invalid_argument);
+    ASSERT_THROW((ip<v4>(_v2)), std::invalid_argument);
+    ASSERT_THROW((ip<v4>(_v3)), std::invalid_argument);
+    ASSERT_NO_THROW((ip<v4>(_v4)));
+    ASSERT_THROW((ip<v4>(_v5)), std::invalid_argument);
+    ASSERT_THROW((ip<v4>(_v6)), std::invalid_argument);
 }
 
 TEST(test_ipv4, create_arg_value)
 {
 	// Arrange
-    std::vector<std::string> v1 = {"-1", "2", "3", "4"};
-    std::vector<std::string> v2 = {"1", "256", "3", "4"};
-    std::vector<std::string> v3 = {"1", "2", "a", "4"};
-    std::vector<std::string> v4 = {"128", "1", "222", "255"};
-    std::vector<std::string> v5 = {"43", "12", "", "255"};
+    std::vector<std::string> _v1 = {"-1", "2", "3", "4"};
+    std::vector<std::string> _v2 = {"1", "256", "3", "4"};
+    std::vector<std::string> _v3 = {"1", "2", "a", "4"};
+    std::vector<std::string> _v4 = {"128", "1", "222", "255"};
+    std::vector<std::string> _v5 = {"43", "12", "", "255"};
 
     // Act
 
     // Assert
-    ASSERT_THROW((ipv4(v1)), std::out_of_range);
-    ASSERT_THROW((ipv4(v2)), std::out_of_range);
-    ASSERT_THROW((ipv4(v3)), std::invalid_argument);
-    ASSERT_NO_THROW((ipv4(v4)));
-    ASSERT_THROW((ipv4(v5)), std::invalid_argument);
+    ASSERT_THROW((ip<v4>(_v1)), std::out_of_range);
+    ASSERT_THROW((ip<v4>(_v2)), std::out_of_range);
+    ASSERT_THROW((ip<v4>(_v3)), std::invalid_argument);
+    ASSERT_NO_THROW((ip<v4>(_v4)));
+    ASSERT_THROW((ip<v4>(_v5)), std::invalid_argument);
 }
 
 TEST(test_ipv4, equal)
 {
 	// Arrange
-    std::vector<std::string> v1 = {"1", "2", "3", "4"};
-    std::vector<std::string> v2 = {"1", "2", "4", "4"};
+    std::vector<std::string> _v1 = {"1", "2", "3", "4"};
+    std::vector<std::string> _v2 = {"1", "2", "4", "4"};
 
     // Act
 
     // Assert
-    ASSERT_EQ((ipv4(v1)), (ipv4(v1)));
-    ASSERT_NE((ipv4(v1)), (ipv4(v2)));
+    ASSERT_EQ((ip<v4>(_v1)), (ip<v4>(_v1)));
+    ASSERT_NE((ip<v4>(_v1)), (ip<v4>(_v2)));
 }
 
 TEST(test_ipv4, more_less)
 {
 	// Arrange
-    std::vector<std::string> v1 = {"1", "2", "3", "4"};
-    std::vector<std::string> v2 = {"1", "2", "4", "4"};
-    std::vector<std::string> v3 = {"1", "5", "4", "4"};
-    std::vector<std::string> v4 = {"255", "1", "1", "1"};
+    std::vector<std::string> _v1 = {"1", "2", "3", "4"};
+    std::vector<std::string> _v2 = {"1", "2", "4", "4"};
+    std::vector<std::string> _v3 = {"1", "5", "4", "4"};
+    std::vector<std::string> _v4 = {"255", "1", "1", "1"};
 
     // Act
 
     // Assert
-    ASSERT_LT((ipv4(v1)), (ipv4(v2)));
-    ASSERT_GT((ipv4(v4)), (ipv4(v2)));
-    ASSERT_GT((ipv4(v3)), (ipv4(v2)));
+    ASSERT_LT((ip<v4>(_v1)), (ip<v4>(_v2)));
+    ASSERT_GT((ip<v4>(_v4)), (ip<v4>(_v2)));
+    ASSERT_GT((ip<v4>(_v3)), (ip<v4>(_v2)));
 }
 
 TEST(test_ipv4, filter)
@@ -83,7 +83,7 @@ TEST(test_ipv4, filter)
     uint8_t n5 = 5;
 
     // Act
-    auto i = ipv4(v1);
+    auto i = ip<v4>(v1);
 
     // Assert
     ASSERT_TRUE(i.filter(n1));
@@ -117,31 +117,31 @@ TEST(test_ipv4, filter_any)
     uint8_t n5 = 5;
 
     // Act
-    auto i = ipv4(v1);
+    auto i = ip<v4>(v1);
 
     // Assert
-    ASSERT_TRUE(i.filter_any(n1));
-    ASSERT_TRUE(i.filter_any(n2));
-    ASSERT_TRUE(i.filter_any(n1, n2));
-    ASSERT_FALSE(i.filter_any(n1, n3));
-    ASSERT_TRUE(i.filter_any(n1, n2, n3));
-    ASSERT_TRUE(i.filter_any(n1, n2, n3, n4));
-    ASSERT_TRUE(i.filter_any(n2, n3, n4));
-    ASSERT_TRUE(i.filter_any(n3, n4));
-    ASSERT_FALSE(i.filter_any(n3, n4, n5));
-    // i.filter_any(n1, n2, n3, n4, n5); // not compile
-    // i.filter_any(); // not compile
+    ASSERT_TRUE(i.filter_mask(n1));
+    ASSERT_TRUE(i.filter_mask(n2));
+    ASSERT_TRUE(i.filter_mask(n1, n2));
+    ASSERT_FALSE(i.filter_mask(n1, n3));
+    ASSERT_TRUE(i.filter_mask(n1, n2, n3));
+    ASSERT_TRUE(i.filter_mask(n1, n2, n3, n4));
+    ASSERT_TRUE(i.filter_mask(n2, n3, n4));
+    ASSERT_TRUE(i.filter_mask(n3, n4));
+    ASSERT_FALSE(i.filter_mask(n3, n4, n5));
+    // i.filter_mask(n1, n2, n3, n4, n5); // not compile
+    // i.filter_mask(); // not compile
 
-    ASSERT_TRUE(i.filter_any({n1}));
-    ASSERT_TRUE(i.filter_any({n2}));
-    ASSERT_TRUE(i.filter_any({n1, n2}));
-    ASSERT_FALSE(i.filter_any({n1, n3}));
-    ASSERT_TRUE(i.filter_any({n1, n2, n3}));
-    ASSERT_TRUE(i.filter_any({n1, n2, n3, n4}));
-    ASSERT_TRUE(i.filter_any({n2, n3, n4}));
-    ASSERT_TRUE(i.filter_any({n3, n4}));
-    ASSERT_FALSE(i.filter_any({n3, n4, n5}));
+    ASSERT_TRUE(i.filter_mask({n1}));
+    ASSERT_TRUE(i.filter_mask({n2}));
+    ASSERT_TRUE(i.filter_mask({n1, n2}));
+    ASSERT_FALSE(i.filter_mask({n1, n3}));
+    ASSERT_TRUE(i.filter_mask({n1, n2, n3}));
+    ASSERT_TRUE(i.filter_mask({n1, n2, n3, n4}));
+    ASSERT_TRUE(i.filter_mask({n2, n3, n4}));
+    ASSERT_TRUE(i.filter_mask({n3, n4}));
+    ASSERT_FALSE(i.filter_mask({n3, n4, n5}));
 
-    ASSERT_THROW(i.filter_any({n1, n2, n3, n4, n5}), std::invalid_argument);
-    ASSERT_THROW(i.filter_any({}), std::invalid_argument);
+    ASSERT_THROW(i.filter_mask({n1, n2, n3, n4, n5}), std::invalid_argument);
+    ASSERT_THROW(i.filter_mask({}), std::invalid_argument);
 }

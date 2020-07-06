@@ -2,9 +2,9 @@ cmake_minimum_required (VERSION 3.1)
 
 project(homework1_task2 VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
 
-set(HDRS include/ipv4.hpp)
+set(HDRS include/ip.hpp)
          
-set(SRCS src/main.cpp src/ipv4.cpp)
+set(SRCS src/main.cpp)
 
 add_executable(${PROJECT_NAME} ${SRCS} ${HDRS})
 
