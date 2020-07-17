@@ -20,10 +20,10 @@ public:
 
     PoolAllocator<T, size_pool>() noexcept;
 
-    template <typename U, typename = typename std::enable_if<sizeof(T) == sizeof(U)>::type>
+    template <typename U>
     PoolAllocator<T, size_pool>(const PoolAllocator<U, size_pool> &other) noexcept;
 
-    T *allocate(std::size_t n, const void *hint = 0);
+    T *allocate(std::size_t n, const void *hint = nullptr);
     void deallocate(T *p, std::size_t n);
 
     template <typename T1, typename T2, size_t size_of_pool>
@@ -32,20 +32,30 @@ public:
         const PoolAllocator<T2, size_of_pool> &) noexcept;
 
 protected:
-    std::shared_ptr<PoolControlBlock<sizeof(T), size_pool>> controlBlock;
+    struct listPoolControlBlock
+    {
+        void *allocate(std::size_t n);
+        void deallocate(T *p, std::size_t n);
+
+        PoolControlBlock<sizeof(T), size_pool> controlBlock;
+        std::unique_ptr<listPoolControlBlock> nextlist;
+    };
+
+    std::shared_ptr<listPoolControlBlock> list;
 };
 
 template <typename T, size_t size_pool>
 PoolAllocator<T, size_pool>::PoolAllocator() noexcept
-    : controlBlock(std::make_shared<PoolControlBlock<sizeof(T), size_pool>>())
+    : list(std::make_shared<listPoolControlBlock>())
 {
 }
 
 template <typename T, size_t size_pool>
-template <typename U, typename>
+template <typename U>
 PoolAllocator<T, size_pool>::PoolAllocator(
     const PoolAllocator<U, size_pool> &other) noexcept
-    : controlBlock(controlBlock)
+    : list(sizeof(T) == sizeof(U) ? list
+                                  : std::make_shared<PoolAllocator<U, size_pool>::PoolControlBlock>())
 {
 }
 
@@ -53,14 +63,50 @@ template <typename T, size_t size_pool>
 T *PoolAllocator<T, size_pool>::allocate(
     std::size_t n, const void *hint)
 {
-    return reinterpret_cast<T *>(controlBlock->allocate(n));
+    if (n > size_pool)
+    {
+        throw std::bad_alloc();
+    }
+    return reinterpret_cast<T*>(list->controlBlock.allocate(n));
 }
 
 template <typename T, size_t size_pool>
 void PoolAllocator<T, size_pool>::deallocate(
     T *p, std::size_t n)
 {
-    controlBlock->deallocate(p, n);
+    list->deallocate(p, n);
+}
+
+template <typename T, size_t size_pool>
+void *PoolAllocator<T, size_pool>::listPoolControlBlock::allocate(std::size_t n)
+{
+    void *result = controlBlock.allocate();
+    if (result == nullptr)
+    {
+        if (nextlist == nullptr)
+            nextlist.reset(new listPoolControlBlock());
+        nextlist->allocate(n);
+    }
+
+    return result;
+}
+
+template <typename T, size_t size_pool>
+void PoolAllocator<T, size_pool>::listPoolControlBlock::deallocate(
+    T *p, std::size_t n)
+{
+    if (controlBlock.IsPointIn(p))
+    {
+        controlBlock.deallocate(p, n);
+    }
+    else if (nextlist != nullptr)
+    {
+        nextlist->deallocate(p, n);
+    }
+    else
+    {
+        throw std::logic_error("Block is not allocate");
+    }
 }
 
 template <typename T1, typename T2, size_t size_pool>
