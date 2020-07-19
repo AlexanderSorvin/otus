@@ -13,6 +13,6 @@ int main()
     std::vector<int, PoolAllocator<int, 5>> vector;
     std::list<int, PoolAllocator<int, 5>> list;
     std::set<int, std::less<int>, PoolAllocator<int, 5>> set;
-    //std::deque<int, PoolAllocator<int, 5>> deque;
+    std::deque<int, PoolAllocator<int, 200>> deque;
     return 0;
 }

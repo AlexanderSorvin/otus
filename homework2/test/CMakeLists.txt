@@ -2,12 +2,16 @@ cmake_minimum_required (VERSION 3.1)
 
 project(test_homework2)
 
-find_package(GTest REQUIRED)
+#find_package(GTest REQUIRED)
+
+include(${GTEST_ROOT}/lib/cmake/GTest/GTestTargets.cmake)
 
 set(HDRS )
          
 set(SRCS 
     main.cpp
+    ListPoolControlBlock.cpp
+    PoolAllocator.cpp
     PoolControlBlock.cpp
 )
 
@@ -23,9 +27,16 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${GTEST_INCLUDE_DIRS}
 )
 
+# find_library (GMOCK_LIBRARIES 
+# NAMES gmock 
+# PATHS "${GTEST_ROOT}/lib" 
+#    NO_DEFAULT_PATH)
+
 target_link_libraries(${PROJECT_NAME}
-    ${GTEST_LIBRARIES} 
-    ${GTEST_MAIN_LIBRARIES} 
+#    ${GTEST_LIBRARIES} 
+#    ${GMOCK_LIBRARIES}
+    GTest::gtest
+    GTest::gmock
     pthread
 )
 

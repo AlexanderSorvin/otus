@@ -1,12 +1,29 @@
 
 #pragma once
+#include "ListPoolControlBlock.hpp"
 
-#include <memory>
-#include <list>
-#include "PoolControlBlock.hpp"
+namespace detail
+{
+    template <size_t size_object, size_t size_pool>
+    struct _PoolAllocator
+    {
+        _PoolAllocator() = default;
+
+        _PoolAllocator(std::shared_ptr<listPoolControlBlock<size_object, size_pool>> &&list)
+            : list(list)
+        {
+        }
+
+        _PoolAllocator(const _PoolAllocator &) = default;
+
+    protected:
+        std::shared_ptr<listPoolControlBlock<size_object, size_pool>> list;
+    };
+
+} // namespace detail
 
 template <typename T, size_t size_pool>
-class PoolAllocator
+class PoolAllocator : public detail::_PoolAllocator<sizeof(T), size_pool>
 {
 public:
     using value_type = T;
@@ -30,23 +47,17 @@ public:
     friend inline bool operator==(
         const PoolAllocator<T1, size_of_pool> &,
         const PoolAllocator<T2, size_of_pool> &) noexcept;
-
-protected:
-    struct listPoolControlBlock
-    {
-        void *allocate(std::size_t n);
-        void deallocate(T *p, std::size_t n);
-
-        PoolControlBlock<sizeof(T), size_pool> controlBlock;
-        std::unique_ptr<listPoolControlBlock> nextlist;
-    };
-
-    std::shared_ptr<listPoolControlBlock> list;
 };
+
+template <typename T1, typename T2, size_t size_of_pool>
+inline bool operator!=(
+    const PoolAllocator<T1, size_of_pool> &,
+    const PoolAllocator<T2, size_of_pool> &) noexcept;
 
 template <typename T, size_t size_pool>
 PoolAllocator<T, size_pool>::PoolAllocator() noexcept
-    : list(std::make_shared<listPoolControlBlock>())
+    : detail::_PoolAllocator<sizeof(T), size_pool>(
+          std::make_shared<listPoolControlBlock<sizeof(T), size_pool>>())
 {
 }
 
@@ -54,8 +65,9 @@ template <typename T, size_t size_pool>
 template <typename U>
 PoolAllocator<T, size_pool>::PoolAllocator(
     const PoolAllocator<U, size_pool> &other) noexcept
-    : list(sizeof(T) == sizeof(U) ? list
-                                  : std::make_shared<PoolAllocator<U, size_pool>::PoolControlBlock>())
+    : detail::_PoolAllocator<sizeof(T), size_pool>((sizeof(T) == sizeof(U))
+                                               ? reinterpret_cast<const detail::_PoolAllocator<sizeof(T), size_pool> &>(other)
+                                               : std::make_shared<listPoolControlBlock<sizeof(T), size_pool>>())
 {
 }
 
@@ -67,46 +79,14 @@ T *PoolAllocator<T, size_pool>::allocate(
     {
         throw std::bad_alloc();
     }
-    return reinterpret_cast<T*>(list->controlBlock.allocate(n));
+    return reinterpret_cast<T *>(this->list->controlBlock.allocate(n));
 }
 
 template <typename T, size_t size_pool>
 void PoolAllocator<T, size_pool>::deallocate(
     T *p, std::size_t n)
 {
-    list->deallocate(p, n);
-}
-
-template <typename T, size_t size_pool>
-void *PoolAllocator<T, size_pool>::listPoolControlBlock::allocate(std::size_t n)
-{
-    void *result = controlBlock.allocate();
-    if (result == nullptr)
-    {
-        if (nextlist == nullptr)
-            nextlist.reset(new listPoolControlBlock());
-        nextlist->allocate(n);
-    }
-
-    return result;
-}
-
-template <typename T, size_t size_pool>
-void PoolAllocator<T, size_pool>::listPoolControlBlock::deallocate(
-    T *p, std::size_t n)
-{
-    if (controlBlock.IsPointIn(p))
-    {
-        controlBlock.deallocate(p, n);
-    }
-    else if (nextlist != nullptr)
-    {
-        nextlist->deallocate(p, n);
-    }
-    else
-    {
-        throw std::logic_error("Block is not allocate");
-    }
+    this->list->deallocate(p, n);
 }
 
 template <typename T1, typename T2, size_t size_pool>
@@ -114,5 +94,14 @@ inline bool operator==(
     const PoolAllocator<T1, size_pool> &a,
     const PoolAllocator<T2, size_pool> &b) noexcept
 {
-    return a.controlBlock.get() == b.controlBlock.get();
+    return static_cast<void *>(a.list.get()) ==
+           static_cast<void *>(b.list.get());
+}
+
+template <typename T1, typename T2, size_t size_pool>
+inline bool operator!=(
+    const PoolAllocator<T1, size_pool> &a,
+    const PoolAllocator<T2, size_pool> &b) noexcept
+{
+    return !(a == b);
 }
