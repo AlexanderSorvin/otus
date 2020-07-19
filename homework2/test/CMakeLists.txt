@@ -5,6 +5,7 @@ project(test_homework2)
 #find_package(GTest REQUIRED)
 
 include(${GTEST_ROOT}/lib/cmake/GTest/GTestTargets.cmake)
+set(Threads::Threads pthread)
 
 set(HDRS )
          
@@ -37,10 +38,6 @@ target_link_libraries(${PROJECT_NAME}
 #    ${GMOCK_LIBRARIES}
     GTest::gtest
     GTest::gmock
-)
-
-target_link_libraries(${PROJECT_NAME}
-    pthread
 )
 
 add_test(${PROJECT_NAME} ${PROJECT_NAME})
