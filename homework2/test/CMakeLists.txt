@@ -37,6 +37,9 @@ target_link_libraries(${PROJECT_NAME}
 #    ${GMOCK_LIBRARIES}
     GTest::gtest
     GTest::gmock
+)
+
+target_link_libraries(${PROJECT_NAME}
     pthread
 )
 
