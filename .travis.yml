@@ -45,11 +45,11 @@ jobs:
       - cd googletest
       - sudo cmake . -DCMAKE_INSTALL_PREFIX=/usr/src/gtest
       - sudo cmake --build . --target install
-      - cd ../otus
+      - cd ../otus/homework2
       - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
       - sudo apt-get update -qq
       script:
-      - cmake homework2 -DGTEST_ROOT=/usr/src/gtest
+      - cmake . -DGTEST_ROOT=/usr/src/gtest
       - cmake --build .
       - cmake --build . --target test
       - cmake --build . --target package
