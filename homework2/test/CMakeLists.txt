@@ -24,7 +24,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 target_include_directories(${PROJECT_NAME} PRIVATE 
     ../include/
-    ${GTEST_INCLUDE_DIRS}
+#    ${GTEST_INCLUDE_DIRS}
 )
 
 # find_library (GMOCK_LIBRARIES 
