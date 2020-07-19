@@ -28,6 +28,10 @@ class PoolAllocator : public detail::_PoolAllocator<sizeof(T), size_pool>
 public:
     using value_type = T;
     using size_type = size_t;
+    using pointer = T *;
+    using const_pointer = const T *;
+    using reference = T &;
+    using const_reference = const T &;
 
     template <typename U>
     struct rebind
@@ -42,6 +46,11 @@ public:
 
     T *allocate(std::size_t n, const void *hint = nullptr);
     void deallocate(T *p, std::size_t n);
+
+    template <typename... Args>
+    void construct(T *p, Args &&... args);
+
+    void destroy(T *p);
 
     template <typename T1, typename T2, size_t size_of_pool>
     friend inline bool operator==(
@@ -66,8 +75,8 @@ template <typename U>
 PoolAllocator<T, size_pool>::PoolAllocator(
     const PoolAllocator<U, size_pool> &other) noexcept
     : detail::_PoolAllocator<sizeof(T), size_pool>((sizeof(T) == sizeof(U))
-                                               ? reinterpret_cast<const detail::_PoolAllocator<sizeof(T), size_pool> &>(other)
-                                               : std::make_shared<listPoolControlBlock<sizeof(T), size_pool>>())
+                                                       ? reinterpret_cast<const detail::_PoolAllocator<sizeof(T), size_pool> &>(other)
+                                                       : std::make_shared<listPoolControlBlock<sizeof(T), size_pool>>())
 {
 }
 
@@ -87,6 +96,19 @@ void PoolAllocator<T, size_pool>::deallocate(
     T *p, std::size_t n)
 {
     this->list->deallocate(p, n);
+}
+
+template <typename T, size_t size_pool>
+template <typename... Args>
+void PoolAllocator<T, size_pool>::construct(T *p, Args &&... args)
+{
+    ::new ((void *)p) T(std::forward<Args>(args)...);
+}
+
+template <typename T, size_t size_pool>
+void PoolAllocator<T, size_pool>::destroy(T *p)
+{
+    p->~T();
 }
 
 template <typename T1, typename T2, size_t size_pool>
