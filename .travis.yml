@@ -49,7 +49,9 @@ jobs:
       - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
       - sudo apt-get update -qq
       script:
-      - cmake homework2 -DGTEST_ROOT=/usr/src/gtest
+      - mkdir build
+      - cd build
+      - cmake ../homework2 -DGTEST_ROOT=/usr/src/gtest
       - cmake --build .
       - cmake --build . --target test
       - cmake --build . --target package
