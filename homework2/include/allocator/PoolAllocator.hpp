@@ -1,6 +1,6 @@
 
 #pragma once
-#include "ListPoolControlBlock.hpp"
+#include "allocator/ListPoolControlBlock.hpp"
 
 namespace detail
 {
@@ -39,10 +39,10 @@ public:
         typedef PoolAllocator<U, size_pool> other;
     };
 
-    PoolAllocator<T, size_pool>() noexcept;
+    PoolAllocator() noexcept;
 
     template <typename U>
-    PoolAllocator<T, size_pool>(const PoolAllocator<U, size_pool> &other) noexcept;
+    PoolAllocator(const PoolAllocator<U, size_pool> &other) noexcept;
 
     T *allocate(std::size_t n, const void *hint = nullptr);
     void deallocate(T *p, std::size_t n);
@@ -88,7 +88,7 @@ T *PoolAllocator<T, size_pool>::allocate(
     {
         throw std::bad_alloc();
     }
-    return reinterpret_cast<T *>(this->list->controlBlock.allocate(n));
+    return reinterpret_cast<T *>(this->list->allocate(n));
 }
 
 template <typename T, size_t size_pool>

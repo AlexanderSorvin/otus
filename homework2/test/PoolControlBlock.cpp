@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <PoolControlBlock.hpp>
+#include <allocator/PoolControlBlock.hpp>
 
 TEST(test_pool_control_block, create)
 {

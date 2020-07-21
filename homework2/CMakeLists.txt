@@ -2,9 +2,15 @@ cmake_minimum_required (VERSION 3.1)
 
 project(homework2 VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
 
-set(HDRS )
+set(HDRS 
+    include/allocator/ListPoolControlBlock.hpp
+    include/allocator/PoolAllocator.hpp
+    include/allocator/PoolControlBlock.hpp
+)
          
-set(SRCS src/main.cpp)
+set(SRCS 
+    src/main.cpp
+)
 
 add_executable(${PROJECT_NAME} ${SRCS} ${HDRS})
 

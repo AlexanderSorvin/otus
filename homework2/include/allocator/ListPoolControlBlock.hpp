@@ -1,5 +1,7 @@
+#pragma once
+
 #include <memory>
-#include "PoolControlBlock.hpp"
+#include "allocator/PoolControlBlock.hpp"
 
 template <size_t size_object, size_t size_pool>
 struct ListPoolControlBlock
@@ -24,7 +26,7 @@ void *ListPoolControlBlock<size_object, size_pool>::allocate(std::size_t n)
     {
         if (nextlist == nullptr)
             nextlist.reset(new ListPoolControlBlock());
-        nextlist->allocate(n);
+        result = nextlist->allocate(n);
     }
 
     return result;
