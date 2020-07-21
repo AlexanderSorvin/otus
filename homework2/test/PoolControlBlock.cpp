@@ -4,7 +4,7 @@
 TEST(test_pool_control_block, create)
 {
 	// Arrange
-    
+    PoolControlBlock<13, 15> a;
 
     // Act
 
@@ -12,6 +12,7 @@ TEST(test_pool_control_block, create)
     ASSERT_NO_THROW((PoolControlBlock<10, 54>()));
     ASSERT_NO_THROW((PoolControlBlock<1, 545>()));
     ASSERT_NO_THROW((PoolControlBlock<45, 1>()));
+    ASSERT_TRUE(a.IsEmpty());
 }
 
 TEST(test_pool_control_block, allocate)

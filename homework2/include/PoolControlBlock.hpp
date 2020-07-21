@@ -32,9 +32,9 @@ PoolControlBlock<size_object, size_pool>::PoolControlBlock()
 template <size_t size_object, size_t size_pool>
 void *PoolControlBlock<size_object, size_pool>::allocate(std::size_t n) noexcept
 {
-    for (auto i = 0; i < size_pool - n + 1; i++)
+    for (unsigned int i = 0; i < size_pool - n + 1; i++)
     {
-        auto j = 0;
+        unsigned int j = 0;
         for (; j < n; j++)
         {
             if (mask[(i + j) / 8] >> (7 - (i + j) % 8) & 0x1)
@@ -71,7 +71,7 @@ void PoolControlBlock<size_object, size_pool>::deallocate(void *p, std::size_t n
         throw std::invalid_argument("n is long");
     }
 
-    for (auto j = 0; j < n; j++)
+    for (unsigned int j = 0; j < n; j++)
     {
         mask[(i + j) / 8] &= ~(1 << (7 - (i + j) % 8));
     }
@@ -86,7 +86,7 @@ bool PoolControlBlock<size_object, size_pool>::IsPointIn(const void *hint) noexc
 template <size_t size_object, size_t size_pool>
 bool PoolControlBlock<size_object, size_pool>::IsEmpty() noexcept
 {
-    for (auto i = 0; i < sizeof(mask); i++)
+    for (unsigned int i = 0; i < sizeof(mask); i++)
     {
         if (mask[i])
             return false;

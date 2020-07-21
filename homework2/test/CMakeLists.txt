@@ -6,7 +6,7 @@ project(test_homework2)
 
 find_package(Threads)
 
-include(${GTEST_ROOT}/lib/cmake/GTest/GTestTargets.cmake)
+find_package(GTest CONFIG REQUIRED)
 
 set(HDRS )
          

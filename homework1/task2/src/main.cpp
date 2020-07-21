@@ -29,6 +29,9 @@ std::vector<std::string> split(const std::string &str, char d)
 
 int main(int argc, char const *argv[])
 {
+    (void)argc;
+    (void)argv;
+    
     try
     {
         std::vector<ip<v4>> ip_pool;

@@ -51,7 +51,7 @@ jobs:
       script:
       - mkdir build
       - cd build
-      - cmake ../homework2 -DGTEST_ROOT=/usr/src/gtest
+      - cmake ../homework2 -DGTest_DIR=/usr/src/gtest/lib/cmake/GTest/
       - cmake --build .
       - cmake --build . --target test
       - cmake --build . --target package

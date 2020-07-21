@@ -9,7 +9,7 @@ namespace detail
     {
         _PoolAllocator() = default;
 
-        _PoolAllocator(std::shared_ptr<listPoolControlBlock<size_object, size_pool>> &&list)
+        _PoolAllocator(std::shared_ptr<ListPoolControlBlock<size_object, size_pool>> &&list)
             : list(list)
         {
         }
@@ -17,7 +17,7 @@ namespace detail
         _PoolAllocator(const _PoolAllocator &) = default;
 
     protected:
-        std::shared_ptr<listPoolControlBlock<size_object, size_pool>> list;
+        std::shared_ptr<ListPoolControlBlock<size_object, size_pool>> list;
     };
 
 } // namespace detail
@@ -66,7 +66,7 @@ inline bool operator!=(
 template <typename T, size_t size_pool>
 PoolAllocator<T, size_pool>::PoolAllocator() noexcept
     : detail::_PoolAllocator<sizeof(T), size_pool>(
-          std::make_shared<listPoolControlBlock<sizeof(T), size_pool>>())
+          std::make_shared<ListPoolControlBlock<sizeof(T), size_pool>>())
 {
 }
 
@@ -76,13 +76,13 @@ PoolAllocator<T, size_pool>::PoolAllocator(
     const PoolAllocator<U, size_pool> &other) noexcept
     : detail::_PoolAllocator<sizeof(T), size_pool>((sizeof(T) == sizeof(U))
                                                        ? reinterpret_cast<const detail::_PoolAllocator<sizeof(T), size_pool> &>(other)
-                                                       : std::make_shared<listPoolControlBlock<sizeof(T), size_pool>>())
+                                                       : std::make_shared<ListPoolControlBlock<sizeof(T), size_pool>>())
 {
 }
 
 template <typename T, size_t size_pool>
 T *PoolAllocator<T, size_pool>::allocate(
-    std::size_t n, const void *hint)
+    std::size_t n, [[maybe_unused]] const void *hint)
 {
     if (n > size_pool)
     {

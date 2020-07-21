@@ -120,7 +120,7 @@ bool ip<protocol>::filter_mask(const std::initializer_list<uint8_t> &f) const
 
     bool result = false;
 
-    for (auto i = 0; result == false && i < protocol + 1 - f.size(); i++)
+    for (unsigned int i = 0; result == false && i < protocol + 1 - f.size(); i++)
     {
         auto mask = f.begin();
         for (auto j = i; mask != f.end() && *mask == byte[j]; mask++, j++)
