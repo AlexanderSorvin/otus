@@ -6,6 +6,7 @@ set(HDRS
     include/allocator/ListPoolControlBlock.hpp
     include/allocator/PoolAllocator.hpp
     include/allocator/PoolControlBlock.hpp
+    include/vector/CustomVector.hpp
 )
          
 set(SRCS 
