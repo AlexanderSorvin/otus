@@ -15,6 +15,7 @@ set(SRCS
     ListPoolControlBlock.cpp
     PoolAllocator.cpp
     PoolControlBlock.cpp
+    CustomVector.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SRCS} ${HDRS})
