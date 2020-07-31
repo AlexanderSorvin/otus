@@ -45,6 +45,9 @@ jobs:
       - sudo apt-get install -qq gcc-7
       - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
       - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 90
+
+      - sudo apt-get install cmake
+
       - cd ..
       - git clone --single-branch --branch release-1.10.0 https://github.com/google/googletest.git
       - cd googletest
