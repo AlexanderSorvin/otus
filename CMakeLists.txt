@@ -10,6 +10,7 @@ else ()
     add_compile_options(-Wall -Wextra -pedantic -Werror)
 endif()
 
+enable_testing()
 
 add_subdirectory(homework1)
 add_subdirectory(homework2)

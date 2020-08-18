@@ -24,7 +24,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 enable_testing()
 
-#add_subdirectory(test)
+add_subdirectory(test)
 
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
 
