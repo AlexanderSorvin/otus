@@ -12,7 +12,6 @@ set(HDRS )
          
 set(SRCS 
     main.cpp
-    ListPoolControlBlock.cpp
     PoolAllocator.cpp
     PoolControlBlock.cpp
     CustomVector.cpp

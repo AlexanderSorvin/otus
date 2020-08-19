@@ -1,15 +1,17 @@
 
 #pragma once
-#include "allocator/ListPoolControlBlock.hpp"
+
+#include "allocator/PoolControlBlock.hpp"
+#include <memory>
 
 namespace detail
 {
-    template <size_t size_object, size_t size_pool>
+    template <size_t size_object>
     struct _PoolAllocator
     {
         _PoolAllocator() = default;
 
-        _PoolAllocator(std::shared_ptr<ListPoolControlBlock<size_object, size_pool>> &&list)
+        _PoolAllocator(std::shared_ptr<PoolControlBlock<size_object>> &&list)
             : list(list)
         {
         }
@@ -17,13 +19,13 @@ namespace detail
         _PoolAllocator(const _PoolAllocator &) = default;
 
     protected:
-        std::shared_ptr<ListPoolControlBlock<size_object, size_pool>> list;
+        std::shared_ptr<PoolControlBlock<size_object>> list;
     };
 
 } // namespace detail
 
-template <typename T, size_t size_pool>
-class PoolAllocator : public detail::_PoolAllocator<sizeof(T), size_pool>
+template <typename T, size_t size_pool, typename enable = typename std::enable_if<sizeof(void *) <= sizeof(T)>::type>
+class PoolAllocator : public detail::_PoolAllocator<sizeof(T)>
 {
 public:
     using value_type = T;
@@ -63,25 +65,25 @@ inline bool operator!=(
     const PoolAllocator<T1, size_of_pool> &,
     const PoolAllocator<T2, size_of_pool> &) noexcept;
 
-template <typename T, size_t size_pool>
-PoolAllocator<T, size_pool>::PoolAllocator() noexcept
-    : detail::_PoolAllocator<sizeof(T), size_pool>(
-          std::make_shared<ListPoolControlBlock<sizeof(T), size_pool>>())
+template <typename T, size_t size_pool, typename enable>
+PoolAllocator<T, size_pool, enable>::PoolAllocator() noexcept
+    : detail::_PoolAllocator<sizeof(T)>(
+          std::make_shared<PoolControlBlock<sizeof(T)>>(size_pool))
 {
 }
 
-template <typename T, size_t size_pool>
+template <typename T, size_t size_pool, typename enable>
 template <typename U>
-PoolAllocator<T, size_pool>::PoolAllocator(
+PoolAllocator<T, size_pool, enable>::PoolAllocator(
     const PoolAllocator<U, size_pool> &other) noexcept
-    : detail::_PoolAllocator<sizeof(T), size_pool>((sizeof(T) == sizeof(U))
-                                                       ? reinterpret_cast<const detail::_PoolAllocator<sizeof(T), size_pool> &>(other)
-                                                       : std::make_shared<ListPoolControlBlock<sizeof(T), size_pool>>())
+    : detail::_PoolAllocator<sizeof(T)>((sizeof(T) == sizeof(U))
+                                            ? reinterpret_cast<const detail::_PoolAllocator<sizeof(T)> &>(other)
+                                            : std::make_shared<PoolControlBlock<sizeof(T)>>(size_pool))
 {
 }
 
-template <typename T, size_t size_pool>
-T *PoolAllocator<T, size_pool>::allocate(
+template <typename T, size_t size_pool, typename enable>
+T *PoolAllocator<T, size_pool, enable>::allocate(
     std::size_t n, [[maybe_unused]] const void *hint)
 {
     if (n > size_pool)
@@ -91,22 +93,22 @@ T *PoolAllocator<T, size_pool>::allocate(
     return reinterpret_cast<T *>(this->list->allocate(n));
 }
 
-template <typename T, size_t size_pool>
-void PoolAllocator<T, size_pool>::deallocate(
+template <typename T, size_t size_pool, typename enable>
+void PoolAllocator<T, size_pool, enable>::deallocate(
     T *p, std::size_t n)
 {
     this->list->deallocate(p, n);
 }
 
-template <typename T, size_t size_pool>
+template <typename T, size_t size_pool, typename enable>
 template <typename... Args>
-void PoolAllocator<T, size_pool>::construct(T *p, Args &&... args)
+void PoolAllocator<T, size_pool, enable>::construct(T *p, Args &&... args)
 {
     ::new ((void *)p) T(std::forward<Args>(args)...);
 }
 
-template <typename T, size_t size_pool>
-void PoolAllocator<T, size_pool>::destroy(T *p)
+template <typename T, size_t size_pool, typename enable>
+void PoolAllocator<T, size_pool, enable>::destroy(T *p)
 {
     p->~T();
 }

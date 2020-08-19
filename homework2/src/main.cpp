@@ -34,19 +34,19 @@ namespace detail
 
 int main()
 {
-    std::map<int, int> map1;
-    std::map<int, int, std::less<int>, PoolAllocator<std::pair<const int, int>, 5>> map2;
+    std::map<int, size_t> map1;
+    std::map<int, size_t, std::less<int>, PoolAllocator<std::pair<const int, size_t>, 10>> map2;
 
-    CustomVector<int> vector1;
-    vector1.resize(10);
+    // CustomVector<int> vector1;
+    // vector1.resize(10);
 
-    CustomVector<int, PoolAllocator<int, 10>> vector2;
-    vector2.resize(10);
+    // CustomVector<size_t, PoolAllocator<size_t, 10>> vector2;
+    // vector2.resize(10);
 
     detail::ConstructFactorial<9>(map1);
     detail::ConstructFactorial<9>(map2);
-    detail::ConstructFactorial<9>(vector1);
-    detail::ConstructFactorial<9>(vector2);
+    // detail::ConstructFactorial<9>(vector1);
+    // detail::ConstructFactorial<9>(vector2);
 
     std::cout << "   map1: ";
     for (auto &i : map1)
@@ -62,19 +62,19 @@ int main()
     }
     std::cout << std::endl;
 
-    std::cout << "vector1: ";
-    for (size_t i = 0; i < vector1.size(); ++i)
-    {
-        std::cout << "[" << i << " " << vector1[i] << "] ";
-    }
-    std::cout << std::endl;
+    // std::cout << "vector1: ";
+    // for (size_t i = 0; i < vector1.size(); ++i)
+    // {
+    //     std::cout << "[" << i << " " << vector1[i] << "] ";
+    // }
+    // std::cout << std::endl;
 
-    std::cout << "vector2: ";
-    for (size_t i = 0; i < vector2.size(); ++i)
-    {
-        std::cout << "[" << i << " " << vector2[i] << "] ";
-    }
-    std::cout << std::endl;
+    // std::cout << "vector2: ";
+    // for (size_t i = 0; i < vector2.size(); ++i)
+    // {
+    //     std::cout << "[" << i << " " << vector2[i] << "] ";
+    // }
+    // std::cout << std::endl;
 
     return 0;
 }
