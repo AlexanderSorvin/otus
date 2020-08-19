@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Главный файл программы
+ **/
+
 #include "print_ip.hpp"
 #include <vector>
 #include <list>

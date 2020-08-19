@@ -17,6 +17,7 @@ jobs:
         skip_cleanup: true
         script:
         - curl -T homework1_task1-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -ualexandersorvin:$BINTRAY_API_KEY "https://api.bintray.com/content/alexandersorvin/otus/homework1/homework1_task2-0.0.$TRAVIS_BUILD_NUMBER/$TRAVIS_BUILD_NUMBER/homework1_task1-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+    
     - stage: homework1_task2
       before_script:
       - sudo apt-get install libgtest-dev
@@ -37,6 +38,7 @@ jobs:
         skip_cleanup: true
         script:
         - curl -T homework1_task2-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -ualexandersorvin:$BINTRAY_API_KEY "https://api.bintray.com/content/alexandersorvin/otus/homework1/homework1_task2-0.0.$TRAVIS_BUILD_NUMBER/$TRAVIS_BUILD_NUMBER/homework1_task2-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+    
     - stage: homework2
       before_script:
       - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
@@ -66,3 +68,33 @@ jobs:
         skip_cleanup: true
         script:
         - curl -T homework2-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -ualexandersorvin:$BINTRAY_API_KEY "https://api.bintray.com/content/alexandersorvin/otus/homework1/homework1_task2-0.0.$TRAVIS_BUILD_NUMBER/$TRAVIS_BUILD_NUMBER/homework2-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+    
+    - stage: homework3
+      before_script:
+      - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+      - sudo apt-get update -qq
+      - sudo apt-get install -qq g++-7
+      - sudo apt-get install -qq gcc-7
+      - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
+      - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 90
+
+      - sudo apt-get install cmake
+
+      - cd ..
+      - git clone --single-branch --branch release-1.10.0 https://github.com/google/googletest.git
+      - cd googletest
+      - sudo cmake . -DCMAKE_INSTALL_PREFIX=/usr/src/gtest
+      - sudo cmake --build . --target install
+      - cd ../otus
+      script:
+      - mkdir build
+      - cd build
+      - cmake ../homework3 -DGTest_DIR=/usr/src/gtest/lib/cmake/GTest/
+      - cmake --build .
+      - cmake --build . --target test
+      - cmake --build . --target package
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script:
+        - curl -T homework3-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -ualexandersorvin:$BINTRAY_API_KEY "https://api.bintray.com/content/alexandersorvin/otus/homework1/homework1_task2-0.0.$TRAVIS_BUILD_NUMBER/$TRAVIS_BUILD_NUMBER/homework3-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"

@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Файл реализаций функций вывода ip адреса
+ **/
+
 #include "print_ip.hpp"
 #include <iostream>
 

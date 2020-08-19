@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief Файл печати ip адреса из различных объектов
+ **/
 #pragma once
 
 #include <type_traits>
