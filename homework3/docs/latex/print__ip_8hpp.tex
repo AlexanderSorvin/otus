@@ -1,0 +1,50 @@
+\hypertarget{print__ip_8hpp}{}\doxysection{Файл include/print\+\_\+ip.hpp}
+\label{print__ip_8hpp}\index{include/print\_ip.hpp@{include/print\_ip.hpp}}
+
+
+Файл печати ip адреса из различных объектов  
+
+
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$cassert$>$}\newline
+{\ttfamily \#include $<$tuple$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+Граф включаемых заголовочных файлов для print\+\_\+ip.\+hpp\+:
+% FIG 0
+Граф файлов, в которые включается этот файл\+:
+% FIG 1
+\doxysubsection*{Классы}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structhomework3_1_1detail_1_1tuple__node}{homework3\+::detail\+::tuple\+\_\+node$<$ number, T1, T2 $>$}}
+\item 
+struct \mbox{\hyperlink{structhomework3_1_1detail_1_1tuple__node_3_010_00_01_t1_00_01_t2_8_8_8_01_4}{homework3\+::detail\+::tuple\+\_\+node$<$ 0, T1, T2... $>$}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Пространства имен}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacehomework3}{homework3}}
+\item 
+ \mbox{\hyperlink{namespacehomework3_1_1detail}{homework3\+::detail}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Функции}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{namespacehomework3_1_1detail_a22583724504980c7bad5878bde2e7030}{homework3\+::detail\+::to\+\_\+string}} (const std\+::string \&node)
+\begin{DoxyCompactList}\small\item\em Функция пребразования объекта в string. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{namespacehomework3_1_1detail_a5bca62cf00c3ea97c4a7cd657a04f922}{homework3\+::detail\+::to\+\_\+string}} (uint8\+\_\+t node)
+\begin{DoxyCompactList}\small\item\em Функция пребразования объекта в string. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespacehomework3_a75c9d81ad88eef7ca2ccd1adde22086c}{homework3\+::print\+\_\+ip}} (const std\+::string \&str)
+\begin{DoxyCompactList}\small\item\em Функция вывода на экран ip адреса \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename  = typename std\+::enable\+\_\+if$<$std\+::is\+\_\+integral$<$\+T$>$\+::value$>$\+::type$>$ }\\void \mbox{\hyperlink{namespacehomework3_aaa3d601836e9a67de82b05a2becd8328}{homework3\+::print\+\_\+ip}} (T value)
+\begin{DoxyCompactList}\small\item\em Функция вывода на экран ip адреса \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename... others, template$<$ class, class... $>$ class Container$>$ }\\void \mbox{\hyperlink{namespacehomework3_a917716e04171b74b1f60d3c75f81d5a0}{homework3\+::print\+\_\+ip}} (const Container$<$ T, others... $>$ \&c)
+\begin{DoxyCompactList}\small\item\em Функция вывода на экран ip адреса \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T1 , typename... T2$>$ }\\void \mbox{\hyperlink{namespacehomework3_a20db49fbdba8853ac9dccc9235006b54}{homework3\+::print\+\_\+ip}} (const std\+::tuple$<$ T1, T2... $>$ \&t)
+\begin{DoxyCompactList}\small\item\em Функция вывода на экран ip адреса \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Подробное описание}
+Файл печати ip адреса из различных объектов 
+

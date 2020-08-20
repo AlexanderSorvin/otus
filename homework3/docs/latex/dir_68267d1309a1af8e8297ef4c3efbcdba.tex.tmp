@@ -1,0 +1,11 @@
+\hypertarget{dir_68267d1309a1af8e8297ef4c3efbcdba}{}\doxysection{Содержание директории src}
+\label{dir_68267d1309a1af8e8297ef4c3efbcdba}\index{Содержание директории src@{Содержание директории src}}
+Директория графа зависимостей src\+:
+% FIG 0
+\doxysubsection*{Файлы}
+\begin{DoxyCompactItemize}
+\item 
+файл \mbox{\hyperlink{main_8cpp}{main.\+cpp}}
+\begin{DoxyCompactList}\small\item\em Главный файл программы \end{DoxyCompactList}\item 
+файл \mbox{\hyperlink{print__ip_8cpp}{print\+\_\+ip.\+cpp}}
+\begin{DoxyCompactList}\small\item\em Файл реализаций функций вывода ip адреса \end{DoxyCompactList}\end{DoxyCompactItemize}
